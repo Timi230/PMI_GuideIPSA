@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuideIPSA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Bernard MT Condensed;
+            background-color: #3b4578;
+            color: #f1f1f1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            padding-top: 20px;
+        }
+
+        .circle {
+            position: absolute;
+            top: -60px; 
+            left: -35px; 
+            width: 200px; 
+            height: 200px; 
+            background-color: #e78f29;
+            border-radius: 50%; 
+        }
+
+        .header {
+            position: absolute;
+            top: 0px;
+            left: 5px;
+        }
+
+        .header img {
+            height: 100px;
+            background-color: transparent;
+        }
+
+        .title {
+            font-size: 40px;
+            color: #f1f1f1;
+            margin-bottom: 75px;
+            text-align: center;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            border: 3px solid #e78f29;
+            padding: 5px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 70%;
+            max-width: 800px;
+            background-color: #2b3658;
+            margin-bottom: 200px;
+        }
+
+        .search-bar input[type="text"] {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: Cambria, serif;
+            border-radius: 20px;
+            color: #2b3658;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #e78f29;
+            margin-left: 10px;
+        }
+
+        .file-upload {
+            margin-left: 10px;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload label {
+            cursor: pointer;
+            font-size: 20px;
+            border: 3px solid #e78f29;
+            padding: 5px 10px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="circle"></div>
+
+        <div class="header">
+            <img src="ipsa_bg.png" alt="IPSA Logo">
+        </div>
+
+        <!-- Title text above the search bar -->
+        <div class="title">Guide Associations & Departements IPSA</div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Ask about ..." aria-label="Search input">
+            <button aria-label="Search">🔍</button>
+            <div class="file-upload">
+                <input type="file" id="file-input" accept="image/*">
+                <label for="file-input" aria-label="Attach file">📎</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle file input changes
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                alert(`File "${file.name}" selected!`);
+                // Handle file upload logic here if needed
+            }
+        });
+    </script>
+</body>
+</html>
