@@ -14,7 +14,7 @@
         body, html {
             height: 100%;
             font-family: Bernard MT Condensed;
-            background-color: #3b4578;
+            background-color: #17287c;
             color: #f1f1f1;
         }
 
@@ -36,6 +36,32 @@
             height: 200px; 
             background-color: #e78f29;
             border-radius: 50%; 
+        }
+
+        /* Random Shape Styling */
+        .shape {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e78f29;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: moveShapes 10s linear infinite;
+        }
+
+        /* Animation for shapes */
+        @keyframes moveShapes {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .header {
@@ -110,6 +136,9 @@
     </style>
 </head>
 <body>
+    <!-- Shape container for random background shapes -->
+    <div id="shape-container"></div>
+
     <div class="container">
         <div class="circle"></div>
 
@@ -131,6 +160,34 @@
     </div>
 
     <script>
+        // JavaScript to generate random shapes
+        const shapeContainer = document.getElementById('shape-container');
+
+        function createShape() {
+            const shape = document.createElement('div');
+            shape.classList.add('shape');
+
+            // Set random starting position
+            shape.style.left = `${Math.random() * 90}vw`;
+            shape.style.top = `${90 + Math.random() * 1}vh`;
+
+            // Set random size
+            const size = Math.random() * 30 + 20;
+            shape.style.width = `${size}px`;
+            shape.style.height = `${size}px`;
+
+            // Add shape to container
+            shapeContainer.appendChild(shape);
+
+            // Remove shape after animation ends
+            setTimeout(() => {
+                shape.remove();
+            }, 10000); // Match the duration of the moveShapes animation
+        }
+
+        // Generate shapes at intervals
+        setInterval(createShape, 500); // Adjust interval for density of shapes
+
         // JavaScript to handle file input changes
         document.getElementById('file-input').addEventListener('change', function(event) {
             const file = event.target.files[0];
