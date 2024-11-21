@@ -19,7 +19,7 @@ def load_images(data_dir):
     
     images = np.array(images) / 255.0  # Normalisation
     labels = np.array(labels)
-    return images, labels, class_name
+    return images, labels, classes
 
 def load_classes(data_dir):
     classes = os.listdir(data_dir)
