@@ -42,7 +42,7 @@ def real_time_detection():
         # Afficher des informations supplémentaires
         display_info(label)
         
-        # Conversion des termes du label data en label interface
+        # Convertion des termes du label data en label interface
         label_interface = convert_label_from_folder(label)
         
         # Afficher des informations supplémentaires
