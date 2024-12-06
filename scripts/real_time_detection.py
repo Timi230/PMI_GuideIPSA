@@ -44,12 +44,12 @@ def real_time_detection():
         
         # Convertion des termes du label data en label interface
         label_interface = convert_label_from_folder(label)
-        
-        # Afficher des informations supplémentaires
-        display_interface(label_interface)
 
         # Afficher la vidéo en direct
         cv2.imshow("Door Recognition", frame)
+
+        # Afficher des informations supplémentaires
+        display_interface(label_interface)
         
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
