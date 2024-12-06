@@ -3,6 +3,8 @@ from config import IMG_SIZE, DATA_DIR, MODEL_SAVE_PATH
 import numpy as np
 from utils.data_processing import load_classes
 from utils.display_info import display_info
+from utils.display_interface import display_interface
+from utils.from_data_to_excel_lab import convert_label_from_folder
 from tensorflow.keras.models import load_model # type: ignore
 from utils.Grad_Cam import generate_gradcam, overlay_heatmap
 
@@ -19,7 +21,7 @@ def real_time_detection():
         print("Erreur : Impossible d'accéder à la webcam.")
         return
 
-    print("Détection en temps réel activée. Appuyez sur 'q' pour quitter.")
+    print("Détection en temps réel activée.\nAppuyez sur 'q' pour quitter.")
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -39,6 +41,12 @@ def real_time_detection():
         
         # Afficher des informations supplémentaires
         display_info(label)
+        
+        # Conversion des termes du label data en label interface
+        label_interface = convert_label_from_folder(label)
+        
+        # Afficher des informations supplémentaires
+        display_interface(label_interface)
 
         # Afficher la vidéo en direct
         cv2.imshow("Door Recognition", frame)
