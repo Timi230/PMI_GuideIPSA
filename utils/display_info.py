@@ -8,4 +8,5 @@ def display_info(label):
     if label in info:
         print(f"Information sur {label}: {info[label]}")
     else:
-        print("Local inconnu.")
+        pass
+        #print("Local inconnu.")
