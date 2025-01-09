@@ -6,31 +6,16 @@ import webbrowser
 import pyttsx3
 import time
 
-def lire_a_haute_voix(textes):
-    """Lit une liste de textes à voix haute avec une gestion explicite des événements."""
-    moteur = pyttsx3.init()  # Initialiser le moteur vocal
-    moteur.connect('finished-utterance', on_utterance_finished)  # Connecter l'événement de fin de lecture
-    
+def lire_a_haute_voix(texte):
+    """Lit un texte à voix haute."""
+    moteur = pyttsx3.init()
     try:
-        for texte in textes:
-            global utterance_done  # Variable pour suivre l'état de la lecture
-            utterance_done = False  # Réinitialiser l'état
-            moteur.say(texte)  # Ajouter le texte au moteur vocal
-            moteur.runAndWait()  # Attendre que la lecture soit terminée
-            
-            # Attendre explicitement la fin de la lecture
-            while not utterance_done:
-                time.sleep(0.1)  # Petite pause pour réduire la charge CPU
+        moteur.say(texte)
+        moteur.runAndWait()
     except Exception as e:
         print(f"Erreur lors de la synthèse vocale : {e}")
     finally:
-        moteur.stop()  # Arrêter proprement le moteur vocal
-
-
-def on_utterance_finished(name, completed):
-    """Callback déclenché à la fin de la lecture d'un texte."""
-    global utterance_done
-    utterance_done = True
+        moteur.stop()
 
 def display_interface(label):
     # Charger les données depuis le fichier Excel
@@ -78,6 +63,15 @@ def display_interface(label):
     # Mettre à jour la barre de défilement lorsque le contenu change
     content_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
+    # Charger l'icône de haut-parleur
+    try:
+        speaker_icon = Image.open("asset/speaker_icon.png")
+        speaker_icon = speaker_icon.resize((32, 32))
+        speaker_photo = ImageTk.PhotoImage(speaker_icon)
+    except FileNotFoundError:
+        speaker_photo = None
+        print("L'icône de haut-parleur (speaker_icon.png) est introuvable.")
+
     i = 0
     images = []
 
@@ -118,6 +112,16 @@ def display_interface(label):
         presentation_label = tk.Label(presentation_frame, text=presentation_text, wraplength=600, font=("Arial", 12), justify="left", anchor="w")
         presentation_label.pack(fill="both", expand=True)
 
+        if speaker_photo:
+            presentation_button = tk.Button(
+                presentation_frame,
+                image=speaker_photo,
+                command=lambda texte=presentation_text: lire_a_haute_voix(texte),
+                bd=0,
+                cursor="hand2"
+            )
+            presentation_button.pack(side="right", padx=5)
+
         # Projets réalisés
         projects_main_frame = tk.LabelFrame(association_frame, text="Projets phares", font=("Arial", 10, "bold"), padx=10, pady=10, bd=5)
         projects_main_frame.pack(fill="x", padx=10, pady=5)
@@ -126,6 +130,16 @@ def display_interface(label):
         project_label = tk.Label(projects_main_frame, text=projects_main, wraplength=600, font=("Arial", 12), justify="left", anchor="w")
         project_label.pack(anchor="w")
 
+        if speaker_photo:
+            projects_button = tk.Button(
+                projects_main_frame,
+                image=speaker_photo,
+                command=lambda texte=projects_main: lire_a_haute_voix(texte),
+                bd=0,
+                cursor="hand2"
+            )
+            projects_button.pack(side="right", padx=5)
+
         # Projets en cours
         projects_now_frame = tk.LabelFrame(association_frame, text="Projets en cours", font=("Arial", 10, "bold"), padx=10, pady=10, bd=5)
         projects_now_frame.pack(fill="x", padx=10, pady=5)
@@ -133,6 +147,16 @@ def display_interface(label):
         projects_now = projet_en_cours_col[index]
         project_now_label = tk.Label(projects_now_frame, text=projects_now, wraplength=600, font=("Arial", 12), justify="left", anchor="w")
         project_now_label.pack(anchor="w")
+
+        if speaker_photo:
+            projects_now_button = tk.Button(
+                projects_now_frame,
+                image=speaker_photo,
+                command=lambda texte=projects_now: lire_a_haute_voix(texte),
+                bd=0,
+                cursor="hand2"
+            )
+            projects_now_button.pack(side="right", padx=5)
 
         # Référents
         reference_frame = tk.LabelFrame(association_frame, text="Référent", font=("Arial", 10, "bold"), padx=10, pady=10, bd=5)
@@ -143,30 +167,16 @@ def display_interface(label):
         reference_label.pack(anchor="w")
         reference_label.bind("<Button-1>", lambda e: ouvrir_email())
 
-        # Section Lecture audio
-        audio_frame = tk.LabelFrame(association_frame, text="Lecture audio", font=("Arial", 10, "bold"), padx=10, pady=10, bd=5)
-        audio_frame.pack(fill="x", padx=10, pady=5)
+        if speaker_photo:
+            reference_button = tk.Button(
+                reference_frame,
+                image=speaker_photo,
+                command=lambda texte=reference_text: lire_a_haute_voix(texte),
+                bd=0,
+                cursor="hand2"
+            )
+            reference_button.pack(side="right", padx=5)
 
-        # Texte à lire
-        textes_a_lire = [
-            f"Présentation de l'association : {presentation_text}",
-            f"Projets phares : {projects_main}",
-            f"Projets en cours : {projects_now}",
-            f"Référents : {referents_col[index]}, Email : {email_col[index]}"
-        ]
-
-        # Bouton pour lire à haute voix
-        lire_button = tk.Button(
-            audio_frame,
-            text="Lire à haute voix",
-            command=lambda: lire_a_haute_voix(textes_a_lire),
-            font=("Arial", 12),
-            padx=10,
-            pady=5,
-            bg="#4CAF50",
-            fg="white"
-        )
-        lire_button.pack(anchor="center")
     root.mainloop()
 
 def ouvrir_email():
