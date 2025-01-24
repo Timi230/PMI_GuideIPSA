@@ -12,4 +12,4 @@ EPOCHS = 10
 LEARNING_RATE = 0.001
 
 # Chemin pour sauvegarder le modèle
-MODEL_SAVE_PATH = os.path.join(MODELS_DIR, 'door_recognition_model_3.h5')
+MODEL_SAVE_PATH = os.path.join(MODELS_DIR, 'door_recognition_model_2.h5')
